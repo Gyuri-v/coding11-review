@@ -7,12 +7,17 @@ let HEIGHT = window.innerHeight;
 let scene, camera, renderer, controls;
 let boxGroup = new THREE.Object3D();
 
-let totalNum = 0;
 const depthNum = 100;
+let totalNum = 0;
 
 let scrollY = 0;
 let moveArea = 0;
 let percent = 0;
+
+let cameraZ = 50;
+let cameraTargetZ = 0;
+let mouse = { x: 0, y: 0 };
+let mouseMove = { x: 0, y: 0 };
 
 const imageDataArr = [
     { "image": "/src/images/soccer_0.png", },
@@ -40,7 +45,7 @@ const init = () => {
 
     // Camera
     camera = new THREE.PerspectiveCamera(75, WIDTH/HEIGHT, 5, 1000);
-    camera.position.set(0, 0, 50);
+    camera.position.set(0, 0, cameraZ);
 
     // Controls
     // controls = new OrbitControls(camera, renderer.domElement);
@@ -70,21 +75,27 @@ const resize = () => {
     
 }
 
+
 const scroll = () => {
     scrollY = window.scrollY;
     moveArea = document.body.offsetHeight - window.innerHeight
     percent = scrollY / moveArea * ((imageDataArr.length - 1) * depthNum);
-
-    // 이제 이거 부드럽게 처리되도록 만들어보깅
-    camera.position.z = 50 - percent;
+    cameraTargetZ = 50 - percent;
 }
 
 const draw = () => {
     // controls.update();
 
+    cameraZ -= (cameraZ - cameraTargetZ) * 0.1;
+    camera.position.z = cameraZ;
+
+    mouseMove.x += (mouse.x - mouseMove.x - WIDTH / 2) * 0.1;
+    mouseMove.y += (mouse.y - mouseMove.y - WIDTH / 2) * 0.1;
+    boxGroup.position.x = -(mouseMove.x / 150);
+    boxGroup.position.y = mouseMove.y / 150;
+
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);
-    // requestAnimationFrame(draw)
 }
 
 const createBox = (i) => {
@@ -99,9 +110,16 @@ const createBox = (i) => {
     boxGroup.add( boxMesh );
 }
 
+// const onMouseMove = (e) => 
+
 
 init();
 draw();
 scroll();
 window.addEventListener('resize', resize);
 window.addEventListener('scroll', scroll);
+window.addEventListener('mousemove', (e) => {{
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+}
+});
