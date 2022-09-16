@@ -1,0 +1,51 @@
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(
+                -220deg,
+                #000,
+                #1f0576,
+                #711f82,
+                #342171,
+                #149696,
+                #719b0f
+            );
+        }
+        #canvasWrap {
+            position: fixed;
+            top: 58%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            overflow: hidden;
+            z-index: 100;
+            /* background-color: #999; */
+        }
+        article {
+            width: 100%;
+        }
+
+        section {
+            padding: 35vh 0 50vh;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        h1,
+        h2 {
+            margin: 0 auto;
+            width: 500px;
+            color: #eee;
+            font-size: 50px;
+        }
+        h2 {
+            font-size: 36px;
+            padding-bottom: 20px;
+        }
+        p {
+            margin: 30px auto;
+            width: 570px;
+            color: #d4d4d4;
+            font-size: 30px;
+        }
